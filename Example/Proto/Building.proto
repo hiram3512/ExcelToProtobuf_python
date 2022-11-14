@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package tutorial;
+
+message Building_Array {
+    repeated Building item = 1;
+}
+
+
+message Building {
+    int32 id = 1;
+    repeated int32 windows = 2;
+    string name = 3;
+    float value = 4;
+}

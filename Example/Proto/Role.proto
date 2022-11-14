@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package tutorial;
+
+message Role_Array {
+    repeated Role item = 1;
+}
+
+
+message Role {
+    int32 id = 1;
+    string name = 2;
+    int32 test_number = 3;
+    repeated int32 test_numbers = 4;
+    float test_float = 5;
+    repeated float test_floats = 6;
+    bool flag = 7;
+    repeated bool flags = 8;
+}
