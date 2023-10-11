@@ -23,8 +23,7 @@ def start_with_excel_files(files):
 
 # this will called from CI
 def start():
-    log.init()
-    log.debug("main start")
+    log.debug("start")
     config.start()
     files = excel_to_data.get_files()
     start_with_excel_files(files)
