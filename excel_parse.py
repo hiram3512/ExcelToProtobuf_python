@@ -12,7 +12,7 @@ def get_field_type(cell_name,item):
             break
     if field_type == -1:
         error_str  = "Error: excel cell name can not find in proto: "+cell_name
-        log.write_log(error_str)
+        log.debug(error_str)
     return field_type
 
 def get_field_enum_type(cell_name,cell_value,item):
@@ -31,49 +31,49 @@ def get_field_is_array(cell_name,item):
 def parse_cell(cell_name,cell_value,item):
     if len(str(cell_value).strip())<=0:
         error_str  = "Error: this cell is empty: "+cell_name
-        log.write_log(error_str)
+        log.debug(error_str)
         return None
     log_str = "parse_cell type:"
     field_type = get_field_type(cell_name,item)
     if field_type==FieldDescriptor.TYPE_INT32 or field_type==FieldDescriptor.TYPE_SINT32\
         or field_type==FieldDescriptor.TYPE_SFIXED32:
         log_str =log_str+cell_name+" "+ str(field_type)+" to int"
-        log.write_log(log_str)
+        log.debug(log_str)
         return int(cell_value)
     elif field_type==FieldDescriptor.TYPE_DOUBLE or field_type==FieldDescriptor.TYPE_FLOAT:
         log_str =log_str+cell_name+" "+ str(field_type)+" to float"
-        log.write_log(log_str)
+        log.debug(log_str)
         return float(cell_value)
     elif field_type==FieldDescriptor.TYPE_INT64 or field_type==FieldDescriptor.TYPE_UINT32\
         or field_type==FieldDescriptor.TYPE_UINT64 or field_type==FieldDescriptor.TYPE_SINT64\
         or field_type==FieldDescriptor.TYPE_FIXED32 or field_type==FieldDescriptor.TYPE_FIXED64\
         or field_type==FieldDescriptor.TYPE_SFIXED64:
         log_str =log_str+cell_name+" "+ str(field_type)+" to int"
-        log.write_log(log_str)
+        log.debug(log_str)
         return int(cell_value)
     elif field_type==FieldDescriptor.TYPE_BOOL:
         log_str =log_str+cell_name+" "+ str(field_type)+" to bool"
-        log.write_log(log_str)
+        log.debug(log_str)
         return bool(int(cell_value))
     elif field_type==FieldDescriptor.TYPE_STRING:
         log_str =log_str+cell_name+" "+ str(field_type)+" to str"
-        log.write_log(log_str)
+        log.debug(log_str)
         return str(cell_value)
     elif field_type==FieldDescriptor.TYPE_BYTES:
         log_str =log_str+cell_name+" "+ str(field_type)+" to bytes"
-        log.write_log(log_str)
+        log.debug(log_str)
         return bytes(cell_value)
     elif field_type==FieldDescriptor.TYPE_ENUM:
         enum_name, enum_value = get_field_enum_type(cell_name,cell_value,item)
         log_str =log_str+cell_name+" "+ str(field_type)+" to enum "+ enum_name
-        log.write_log(log_str)
+        log.debug(log_str)
         return enum_value
-    log.write_log("Error: parse_cell type:"+cell_name)
+    log.debug("Error: parse_cell type:"+cell_name)
     return None
 
 #解析excel单元格数组(以,分隔)
 def parse_array_cell(cell_name,cell_value,item):
-    log.write_log("parse_array_cell "+cell_name)
+    log.debug("parse_array_cell "+cell_name)
     values = []
     cell_value_all = cell_value #只有一个元素
     cell_value_all = cell_value.split(',')
@@ -84,7 +84,7 @@ def parse_array_cell(cell_name,cell_value,item):
 
 def parse_field(cell_name,cell_value,item):    
     is_array = get_field_is_array(cell_name,item)
-    log.write_log("parse_field is_array: "+cell_name+" "+str(is_array))
+    log.debug("parse_field is_array: "+cell_name+" "+str(is_array))
     if is_array:
         values = parse_array_cell(cell_name,cell_value,item)
         field = getattr(item,cell_name)
@@ -95,7 +95,7 @@ def parse_field(cell_name,cell_value,item):
         setattr(item,cell_name,value)
 
 def get_item_array(excel_path,item_array):
-    log.write_log("get_item_array "+excel_path)
+    log.debug("get_item_array "+excel_path)
     sheet = openpyxl.load_workbook(excel_path).worksheets[0]
     #第一行注释,第二行字段名,第三行以后配置数值
     row_count = sheet.max_row

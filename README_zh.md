@@ -5,8 +5,8 @@
 - 点击生成
 
 > 第一次使用工具时:
-> - 双击[init.bat](init.bat)自动唤起python安装程序(勾选Add Python 3.10 to PATH)
-> - 双击[init_dependence.bat](init_dependence.bat)自动安装依赖库
+> - 双击[setup.bat](setup.bat)自动唤起python安装程序(勾选Add Python 3.10 to PATH)
+> - 双击[setup_dependence.bat](setup_dependence.bat)自动安装依赖库
 
 ## 配置规则
 参照[Example](Example)文件夹下的示例

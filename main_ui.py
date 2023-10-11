@@ -1,15 +1,13 @@
+# support: hiramtan@live.com
+
 import main
 import log
 import config
 import excel_to_data
 import sys
-from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog,QListWidgetItem
+from PyQt6 import QtWidgets
+from PyQt6.QtWidgets import QApplication, QWidget, QFileDialog,QListWidgetItem
 from dialog_ui import Ui_Dialog
-
-
-
-
 class MainUI(QWidget,Ui_Dialog):
     def __init__(self,parent=None):
         super(MainUI, self).__init__(parent)
@@ -21,9 +19,15 @@ class MainUI(QWidget,Ui_Dialog):
         self.pushButton_SelectAll.clicked.connect(self.select_all_button_clicked)
         self.pushButton_UnselectAll.clicked.connect(self.unselect_all_button_clicked)
         self.pushButton_Export.clicked.connect(self.export_button_clicked)
+
+        self.lineEdit_ExcelFolder.setText(config.excel_dir)
+        self.lineEdit_ProtoFolder.setText(config.proto_dir)
+        self.lineEdit_LanguageFolder.setText(config.auto_generate_language_dir)
+        self.lineEdit_DataFolder.setText(config.auto_generate_data_dir)
         
         self.all_excel_files = excel_to_data.get_files()
         self.selected_excel_files = self.all_excel_files
+        self.update_scroll_area_widget()
 
     # 目录选择
     def dir_excel_button_clicked(self):
@@ -33,8 +37,6 @@ class MainUI(QWidget,Ui_Dialog):
         self.all_excel_files = excel_to_data.get_files()
         self.selected_excel_files = self.all_excel_files
         self.update_scroll_area_widget()
-        for checkbox in self.all_checkbox:
-            checkbox.setChecked(True)
 
     def dir_proto_button_clicked(self):
         folder_selected = QFileDialog.getExistingDirectory()
@@ -64,6 +66,7 @@ class MainUI(QWidget,Ui_Dialog):
 
     def export_button_clicked(self):
         main.start_with_excel_files(self.selected_excel_files)
+        self.label_log.setText("finish")
 
     def excel_file_checkbox(self):
         self.selected_excel_files = []
@@ -74,6 +77,7 @@ class MainUI(QWidget,Ui_Dialog):
 
     def update_scroll_area_widget(self):
         self.all_checkbox = []  
+        self.listWidget.clear()
         for row in range(len(self.all_excel_files)):
             name = self.all_excel_files[row]            
             checkbox = QtWidgets.QCheckBox(name)
@@ -84,8 +88,7 @@ class MainUI(QWidget,Ui_Dialog):
             self.listWidget.setItemWidget(item,checkbox)
             
 if __name__ == "__main__":  
-    log.init()
-    log.write_log("main start")
+    log.debug("start")
     config.start()
     app = QApplication(sys.argv) 
     main_ui = MainUI()

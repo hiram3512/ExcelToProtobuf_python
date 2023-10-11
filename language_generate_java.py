@@ -6,12 +6,12 @@ from subprocess import Popen
 
 def generate(proto_dir,proto_file,language_dir):
     str = "generate java language:"+proto_file
-    log.write_log(str)
+    log.debug(str)
     protoc_exe = os.getcwd()+"/protoc.exe"
     Popen([protoc_exe, '-I', proto_dir, '--java_out', language_dir, proto_file],
       shell=False).wait()
 def start():
-    log.write_log("start java language")
+    log.debug("start java language")
     language_dir = config.auto_generate_language_dir+"/java"
     os.makedirs(language_dir)
     files = proto_file.get_files()

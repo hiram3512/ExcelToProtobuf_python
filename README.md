@@ -7,8 +7,8 @@
 - Click export button
 
 > First time use and setup:
-> - Click [init.bat](init.bat) will automatically call python installer(check on Add Python 3.10 to PATH)
-> - Click [init_dependence.bat](init_dependence.bat) will automatically install dependency
+> - Click [setup.bat](setup.bat) will automatically call python installer(check on Add Python 3.10 to PATH)
+> - Click [setup_dependence.bat](setup_dependence.bat) will automatically install dependency
 
 ## Config Rule
 There are some showcase at [Example](Example) folder

@@ -11,7 +11,7 @@ from google.protobuf.json_format import MessageToJson
 extension = ".xlsx"
 
 def get_files():
-    log.write_log("get_files")
+    log.debug("get_files")
     result = []
     g = os.walk(config.excel_dir)
     for root, subFolder, files in g:
@@ -20,20 +20,20 @@ def get_files():
                 path = os.path.join(root, file)               
                 result.append(path)
                 str = "excel:"+path
-                log.write_log(str)
+                log.debug(str)
     return result
 
 def generate_intermediate_file():
-    log.write_log("generate_intermediate_file")
+    log.debug("generate_intermediate_file")
     generate_intermediate.start()
 
 def start_with_files(files):
-    log.write_log("excel_to_data start_with_files")
+    log.debug("excel_to_data start_with_files")
     clean()
     generate_intermediate_file()
     for file in files:
         out_str = "start parse file:"+file
-        log.write_log(out_str)
+        log.debug(out_str)
         base_name = os.path.basename(file)
         name_without_extension = os.path.splitext(base_name)[0]
         python_file_without_extension = name_without_extension+ "_pb2"
@@ -50,11 +50,11 @@ def start_with_files(files):
             write_data_as_json(name_without_extension,item_array)
         else:
             error_str = "error: this excel can not find python language(check proto):"+file
-            log.write_log(error_str)
+            log.debug(error_str)
     finish()
 
 def write_data_as_binary(name,item_array):
-    log.write_log("write_data_as_binary "+name)
+    log.debug("write_data_as_binary "+name)
     data = item_array.SerializeToString()
     path = config.auto_generate_data_dir+"/"+name+".bin"
     file = open(path, 'wb+')
@@ -62,7 +62,7 @@ def write_data_as_binary(name,item_array):
     file.close()
 
 def write_data_as_json(name,item_array):
-    log.write_log("write_data_as_json "+name)
+    log.debug("write_data_as_json "+name)
     str_with_default_value = MessageToJson(
         item_array,
         including_default_value_fields=True,
@@ -72,7 +72,7 @@ def write_data_as_json(name,item_array):
         f.writelines(str_with_default_value)
 
 def clean():
-    log.write_log("excel_to_data clean")
+    log.debug("excel_to_data clean")
     language_dir = config.auto_generate_language_dir
     isExists = os.path.exists(language_dir)
     if isExists:
@@ -92,7 +92,7 @@ def clean():
     os.makedirs(temp_dir)
 
 def finish():
-    log.write_log("excel_to_data finish")
+    log.debug("excel_to_data finish")
     temp_dir = common.temp_data_folder
     isExists = os.path.exists(temp_dir)
     if isExists:
