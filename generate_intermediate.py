@@ -1,3 +1,4 @@
+# support: hiramtan@live.com
 import log
 import shutil
 import os

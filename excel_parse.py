@@ -1,5 +1,5 @@
+# support: hiramtan@live.com
 #规则
-
 import log
 import openpyxl
 from google.protobuf.descriptor import FieldDescriptor

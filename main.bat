@@ -1,1 +1,1 @@
-python main_ui.py
+python main.py

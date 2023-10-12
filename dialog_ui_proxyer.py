@@ -1,13 +1,15 @@
 # support: hiramtan@live.com
-
-import main
 import log
 import config
 import excel_to_data
-import sys
 from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import QApplication, QWidget, QFileDialog,QListWidgetItem
+from PyQt6.QtWidgets import QWidget, QFileDialog,QListWidgetItem
 from dialog_ui import Ui_Dialog
+import language_generate_python
+import language_generate_cpp
+import language_generate_csharp
+import language_generate_java
+from pydispatch import dispatcher
 class MainUI(QWidget,Ui_Dialog):
     def __init__(self,parent=None):
         super(MainUI, self).__init__(parent)
@@ -19,6 +21,8 @@ class MainUI(QWidget,Ui_Dialog):
         self.pushButton_SelectAll.clicked.connect(self.select_all_button_clicked)
         self.pushButton_UnselectAll.clicked.connect(self.unselect_all_button_clicked)
         self.pushButton_Export.clicked.connect(self.export_button_clicked)
+
+        dispatcher.connect(self.update_ui_log, signal='log', sender=dispatcher.Any)
 
         self.lineEdit_ExcelFolder.setText(config.excel_dir)
         self.lineEdit_ProtoFolder.setText(config.proto_dir)
@@ -65,8 +69,14 @@ class MainUI(QWidget,Ui_Dialog):
             checkbox.setChecked(False)
 
     def export_button_clicked(self):
-        main.start_with_excel_files(self.selected_excel_files)
-        self.label_log.setText("finish")
+        log.debug("export_button_clicked")
+        excel_to_data.start_with_files(self.selected_excel_files)
+        log.debug("start generate_language")
+        language_generate_python.start()
+        language_generate_cpp.start()
+        language_generate_csharp.start()
+        language_generate_java.start()
+        log.debug("finish")
 
     def excel_file_checkbox(self):
         self.selected_excel_files = []
@@ -86,11 +96,6 @@ class MainUI(QWidget,Ui_Dialog):
             item = QListWidgetItem()
             self.listWidget.addItem(item)
             self.listWidget.setItemWidget(item,checkbox)
-            
-if __name__ == "__main__":  
-    log.debug("start")
-    config.start()
-    app = QApplication(sys.argv) 
-    main_ui = MainUI()
-    main_ui.show()
-    sys.exit(app.exec())
+    
+    def update_ui_log(self,message):
+        self.label_log.setText(message)
