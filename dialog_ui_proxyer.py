@@ -10,9 +10,9 @@ import language_generate_cpp
 import language_generate_csharp
 import language_generate_java
 from pydispatch import dispatcher
-class MainUI(QWidget,Ui_Dialog):
+class DialogUIProxyer(QWidget,Ui_Dialog):
     def __init__(self,parent=None):
-        super(MainUI, self).__init__(parent)
+        super(DialogUIProxyer, self).__init__(parent)
         self.setupUi(self)
         self.pushButton_ExcelFolder.clicked.connect(self.dir_excel_button_clicked)
         self.pushButton_ProtoFolder.clicked.connect(self.dir_proto_button_clicked)
@@ -31,7 +31,7 @@ class MainUI(QWidget,Ui_Dialog):
         
         self.all_excel_files = excel_to_data.get_files()
         self.selected_excel_files = self.all_excel_files
-        self.update_scroll_area_widget()
+        self.update_list_view_widget()
 
     # 目录选择
     def dir_excel_button_clicked(self):
@@ -40,7 +40,7 @@ class MainUI(QWidget,Ui_Dialog):
         self.lineEdit_ExcelFolder.setText(config.excel_dir)
         self.all_excel_files = excel_to_data.get_files()
         self.selected_excel_files = self.all_excel_files
-        self.update_scroll_area_widget()
+        self.update_list_view_widget()
 
     def dir_proto_button_clicked(self):
         folder_selected = QFileDialog.getExistingDirectory()
@@ -85,7 +85,7 @@ class MainUI(QWidget,Ui_Dialog):
                 name = checkbox.text()
                 self.selected_excel_files.append(name)
 
-    def update_scroll_area_widget(self):
+    def update_list_view_widget(self):
         self.all_checkbox = []  
         self.listWidget.clear()
         for row in range(len(self.all_excel_files)):
