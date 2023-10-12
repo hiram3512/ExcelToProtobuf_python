@@ -59,9 +59,8 @@ why convert int64,uint32.etc to int? because in python 3.x only one default inte
 >PEP 237: Essentially, long renamed to int. That is, there is only one built-in integral type, named int; but it behaves mostly like the old long type.https://docs.python.org/3/whatsnew/3.0.html#integers
 
 ### Log
-- Write into log.txt
-- Every time will clear old file and rewrite 
-- Can search keyboard Error find export problems
+- Write into logs folder
+- Search "Error" in log files find export problems
 
 
 -----

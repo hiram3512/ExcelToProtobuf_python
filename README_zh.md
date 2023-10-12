@@ -57,8 +57,7 @@ https://docs.python.org/3/library/stdtypes.html#
 >PEP 237: Essentially, long renamed to int. That is, there is only one built-in integral type, named int; but it behaves mostly like the old long type.https://docs.python.org/3/whatsnew/3.0.html#integers
 
 ### 日志
-- 日志在log.txt文件中
-- 每次导出时会清理旧文件,重新写入
+- 日志在logs文件夹中
 - 可以通过查找error关键字查找导出错误
 
 
